@@ -1,0 +1,47 @@
+{% extends 'layout.html' %} {% block content %}
+<!-- Custom styles for this template -->
+<link href="static/css/style.css" rel="stylesheet" />
+<!-- responsive style -->
+<link href="static/css/responsive.css" rel="stylesheet" />
+
+
+<div class="hero_area">
+    <div class="bg-box">
+        <img src="https://images.unsplash.com/photo-1503767849114-976b67568b02?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80"
+            alt="">
+    </div>
+    <!-- header section strats -->
+    <header class="header_section">
+        <div class="container">
+            <!-- adddddddddddddd -->
+        </div>
+    </header>
+    <!-- end header section -->
+    <!-- slider section -->
+    <section class="slider_section ">
+        <div id="customCarousel1" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="container ">
+                        <div class="row">
+                            <div class="col-md-7 col-lg-6 ">
+                                <div class="detail-box">
+                                        <img src="/static/pizzalo-animated.svg"
+                                        alt="">
+                                    <div class="d-grid gap-2 col-12">
+                                        <a href="{{url_for('home')}}" class="btn btn-light">
+                                            Order Now
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- end slider section -->
+    
+</div>
+{% endblock content%}

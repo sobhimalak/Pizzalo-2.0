@@ -1,0 +1,48 @@
+{% extends "layout.html" %} {% block content %}
+{% include 'navbar_admin.html' %}
+
+
+<section class="vh-100">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+        <div class="card bg-dark text-white" style="border-radius: 1rem">
+          <div class="card-body p-5">
+            <div class="mb-md-5 mt-md-4 pb-2">
+              {% include '_messages.html' %}
+              {% if updatebrand %}
+              <h2 class="fw-bold mb-2 text-uppercase">Update Brand</h2>
+              <p class="text-white-50">Enter a product brand and update</p>
+              <form method="POST">
+                <div class="form-outline form-white mb-4">
+                  <input type="text" name="brand" class="form-control" value="{{updatebrand.name}}" />
+                </div>
+                <button type="submit" value="Update brand" class="col-lg-12 btn btn-outline-light btn-md mb-3">Update
+                  Brand</button>
+                <button type="cancel" href="{{url_for('brands')}}"
+                  class="col-lg-12 btn btn-outline-light btn-md">Cancel</button>
+              </form>
+              {% else %}
+              <h2 class="fw-bold mb-2 text-uppercase">Add a Category</h2>
+              <p class="text-white-50">
+                Enter a Product Category eg.Pizza / Pasta etc..
+              </p>
+              <form method="post">
+                <div class="form-outline form-white mb-4">
+                  <input type="text" name="category" class="form-control" value="{{updatecategory.name}}" />
+                </div>
+                <button type="submit" value="Update category" class="col-lg-12 btn btn-outline-light btn-md mb-3">Update
+                  Category</button>
+                <button type="cancel" href="{{url_for('categories')}}"
+                  class="col-lg-12 btn btn-outline-light btn-md">Cancel</button>
+              </form>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock content %}

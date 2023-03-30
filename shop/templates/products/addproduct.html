@@ -1,0 +1,124 @@
+{% extends "layout.html" %} {% block content %}
+{% include 'navbar_admin.html' %}
+
+<section class="vh-100">
+  <div class="container py-2 h-100">
+    <div class="row d-flex h-100">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-12">
+        <div class="card bg-dark text-white" style="border-radius: 1rem">
+          <div class="card-body pt-2 px-5">
+            <div class="mb-md-5 mt-md-4 pb-2">
+              <h2 class="fw-bold mb-2 text-uppercase">Add a product</h2>
+              {% from "_formhelpers.html" import render_field %}
+
+              <!--========== Product Form  ==============-->
+
+              <form method="post" enctype="multipart/form-data">
+                <div class="row">
+                  <div class="col form-outline form-white w-50">
+                    {{ render_field(form.name, placeholder= 'Product name',
+                    class="form-control form-control-md") }}
+                  </div>
+                  <div class="col form-outline form-white w-50">
+                    {{ render_field(form.price, placeholder= 'Product price',
+                    class="form-control form-control-md") }}
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col form-outline form-white">
+                    {{ render_field(form.discount,placeholder= 'Product discount',
+                    class="form-control form-control-md") }}
+                  </div>
+                  <div class="col form-outline form-white w-50">
+                    {{ render_field(form.stock, placeholder= 'Product stock',
+                    class="form-control form-control-md") }}
+                  </div>
+                </div>
+
+                <!--========== Brand select ==============-->
+
+                <p class="m-0"><b>Brand</b></p>
+                <select name="brand" id="brand" class="form-control mb-2" required>
+                  {% if getproduct %}
+
+                  <option value="{{getproduct.brand_id}}">{{getproduct.brand.name}}
+                  </option>
+                  {% for brand in brands %}
+                  <option value="{{brand.id}}">{{brand.name}}</option>
+                  {% endfor %} {% else %}
+                  <option value="">Select A brand</option>
+                  {% for brand in brands %}
+                  <option value="{{brand.id}}">{{brand.name}}</option>
+                  {% endfor %} {% endif %}
+                </select>
+
+                <!--========== Category select ==============-->
+
+                <p class="m-0"><b>Category</b></p>
+                <select name="category" id="category" class="form-control mb-2" required>
+                  {% if getproduct %}
+                  <option value="{{getproduct.category_id}}">
+                    {{getproduct.category.name}}
+                  </option>
+                  {% for category in categories %}
+                  <option value="{{category.id}}">{{category.name}}</option>
+                  {% endfor %} {% else %}
+                  <option value="">Select A category</option>
+                  {% for category in categories %}
+                  <option value="{{category.id}}">{{category.name}}</option>
+                  {% endfor %} {% endif %}
+                </select>
+                <div class="form-outline form-white">
+                  {{ render_field(form.colors,placeholder= 'Allergies',
+                  class="form-control form-control-md") }}
+                </div>
+                <div class="form-outline form-white">
+                  {{ render_field(form.description,placeholder= 'Product Description', class="form-control
+                  form-control-md", rows="3")
+                  }}
+                </div>
+
+                <!--========== ADD IMAGES ==============-->
+                <div class="container">
+                  <div class="row">
+                    {% if getproduct %}
+                    <div class="col-md-4">
+                      <input type="file" name="image_1" id="image_1" />
+                      <a href="{{url_for('static',filename='images/' + getproduct.image_1)}}">images/{{
+                        getproduct.image_1}}</a>
+                    </div>
+                    <div class="col-md-4">
+                      <input type="file" name="image_2" id="image_2" />
+                      <a href="{{url_for('static',filename='images/' + getproduct.image_2)}}">images/{{
+                        getproduct.image_2}}</a>
+                    </div>
+
+                    <div class="col-md-4">
+                      <input type="file" name="image_3" id="image_3" />
+                      <a href="{{url_for('static',filename='images/' + getproduct.image_3)}}">image/{{
+                        getproduct.image_3}}</a>
+                    </div>
+                    {% else %}
+                    <label class="control-label small mb-1">For best results( jpg , png , gif , jpeg ):</label>
+                    <div class="col-md-3">{{ render_field(form.image_1) }}</div>
+                    <div class="col-md-3">{{ render_field(form.image_2) }}</div>
+                    <div class="col-md-3">{{ render_field(form.image_3) }}</div>
+
+                  </div>
+                  {% endif %}
+                </div>
+                <!--========== BUttons ==============-->
+                <div class="float-end">
+                  <button type="submit" value="{% if getproduct %}Update {% else %}Add{% endif %} product"
+                    class="btn btn-outline-light btn-md px-5">submit</button>
+                  <a type="cancel" href="{{url_for('admin')}}" class="btn btn-outline-light btn-md px-5">Cancel</a>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock content %}

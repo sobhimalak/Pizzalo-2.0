@@ -1,0 +1,77 @@
+
+<!------------- Nav Bar ---------------->
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light sticky-top bg-inverse">
+    <!-- Container wrapper -->
+    <div class="container-fluid">
+      <!-- Toggle button -->
+      <button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars"></i>
+      </button>
+  
+      <!-- Collapsible wrapper -->
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <!-- Navbar brand --> 
+        <a class="navbar-brand" href="{{url_for('landing_page')}}">
+          <img src="/static/logo.png" height="35" loading="lazy" /></a>
+        <!-- Left links -->
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="{{url_for('home')}}">All Products</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+              data-bs-toggle="dropdown" aria-expanded="false">Categories</a>
+  
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              {% for category in categories %}
+              <a class="dropdown-item" href="{{url_for('get_category', id=category.id)}}">{{category.name}}</a>
+              {% endfor %}
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              Brands
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              {% for brand in brands %}
+              <a class="dropdown-item" href="{{url_for('get_brand', id=brand.id)}}">{{brand.name}}</a>
+              {% endfor %}
+            </ul>
+          </li>
+        </ul>
+        <!-- Left links -->
+      </div>
+  
+      <!-- Right elements -->
+      <div class="d-flex align-items-center">
+        <!-- Cart -->
+        <a href="{{ url_for('getCart')}}" class="text-decoration-none">
+        <div class="cart me-5">
+          <div class="cart_container d-flex flex-row align-items-center justify-content-end">
+              <div class="cart_content">
+                
+                  <div class="cart_price me-2">{{grandTotal}}</div>
+                 
+              </div>
+              <div class="cart_icon" >
+                  <img src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1560918704/cart.png" alt="">
+                  <div class="cart_count"><span>{{ session['Shoppingcart']|length }}</span></div>
+              </div>
+              
+          </div>
+      </div>
+    </a>
+      <!-- LogOut Icon -->
+      <a class="text-reset me-3" href="{{url_for('logout')}}" style="text-decoration: none;">
+          <i class="bi bi-box-arrow-in-right"></i>
+      </a>
+        
+  
+  <!-- Right elements -->
+  </div>
+    <!-- Container wrapper -->
+  </nav>
+  <!---============== END OF NAV BAR ==================-->

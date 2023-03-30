@@ -1,0 +1,264 @@
+{% extends 'layout.html' %} {% block content %}
+
+{% include 'navbar.html' %}
+
+<!-- ======= Product cards Section ======= -->
+<section id="products">
+  <header class="section-header text-center mt-5">
+    <h2 class="display-2 text-uppercase">Our Products</h2>
+    <p>Select From Our Products</p>
+  </header>
+  <div class="container py-3">
+    <div class="row">
+      <!---==============  ==================-->
+      {%if brand %} {% for b in brand.items %}
+      <div class="col-lg-4 col-md-6 col-sm-10 offset-md-0 offset-sm-1 mb-5">
+        <div class="card" style="background: #ecebf3 !important">
+          <a href="{{url_for('single_page', id=b.id)}}">
+            <img class="card-img-top" src="{{url_for('static', filename='images/'+ b.image_1)}}" alt="{{b.name}}" /></a>
+          <div class="card-body shadow-lg">
+            {% if b.discount > 0 %}
+                <div class="h6 btn btn-dark btn-sm text-start rounded-0">-{{b.discount}}<i class="fa fa-fw fa-percent fs-xs" aria-hidden="true"></i></div>
+                {% endif %}
+            <!-- <div class="card-text">{{b.desc}}</div> -->
+            <div class="d-flex align-items-center justify-content-between">
+              <h2 class="name-tag font-weight-bold pt-1">{{ b.name }}</h2>
+              <div class="h6 font-weight-bold">{{ b.price }} kr</div>
+            </div>
+              <div class="d-flex align-items-center justify-content-between">  
+              </div>
+              <div class="d-flex justify-content-end">
+                <form action="{{url_for('AddCart')}}" method="post">
+                  <div class="d-flex">
+                      <input class="form-control text-dark text-center me-3" type="hidden" name="quantity"
+                          value="1" style="max-width: 3rem" />
+                      {%set colors = b.colors.split(",") %}
+                      <select class="form-control-sm me-3" style="visibility:hidden" name="colors" id="colors">
+                          {% for color in colors %}
+                          {% set col = color.split(':') %}
+                          <option value="{{col[0]}}">{{col[0] | capitalize }}</option>
+                          {% endfor %}
+                      </select>
+                      <input type="hidden" name="product_id" value="{{b.id}}">
+                      <a href="{{url_for('single_page', id=b.id)}}" class="btn btn-outline-dark flex-shrink-0">
+                        Details
+                      </a>
+                      <button type="submit" class="btn btn-outline-dark flex-shrink-0  ms-2 ">
+                          <i class="bi-cart-fill me-1"></i>
+                          Add to cart
+                      </button>
+                  </div>
+              </form>
+            </div>
+              
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  <nav class="d-flex justify-content-center">
+    {% if brand.has_prev %}
+    <ul class="pagination pagination-md">
+      <li class="page-item"><a class="page-link"
+          href="{{url_for('get_brand',id = get_b.id,page=brand.prev_num)}}">Previous</a></li>
+    </ul>
+    {% endif %}
+    {%if brand.total > 6 %}
+    {% for page_num in brand.iter_pages(left_edge=1, right_edge=2, left_current=2, right_current=2) %}
+    {% if page_num %}
+    {% if brand.page == page_num %}
+    <ul class="pagination pagination-md">
+      <li class="page-item"><a class="page-link"
+          href="{{url_for('get_brand',id = get_b.id, page=page_num)}}">{{page_num}}</a></li>
+    </ul>
+    {% else %}
+    <ul class="pagination pagination-md">
+      <li class="page-item"><a class="page-link"
+          href="{{url_for('get_brand',id = get_b.id,page=page_num)}}">{{page_num}}</a></li>
+    </ul>
+    {% endif %}
+    {% else %}
+    ...
+    {% endif %}
+    {% endfor %}
+    {%endif%}
+    {% if brand.has_next %}
+    <ul class="pagination pagination-md">
+      <li class="page-item"><a class="page-link"
+          href="{{url_for('get_brand',id = get_b.id,page=brand.next_num)}}">Next</a></li>
+    </ul>
+    {% endif %}
+  </nav>
+
+
+  <!---==============  ==================-->
+  <div class="container py-3">
+    <div class="row">
+      {% elif get_cat_prod %}
+      {% for get_cat in get_cat_prod.items %}
+      <div class="col-lg-4 col-md-6 col-sm-10 offset-md-0 offset-sm-1 mb-5">
+        <div class="card" style="background: #ecebf3 !important">
+          <a href="{{url_for('single_page', id=get_cat.id)}}"><img class="card-img-top" src="{{url_for('static', filename='images/'+ get_cat.image_1)}}"
+            alt="{{get_cat.name}}" /></a>
+            <div class="card-body shadow-lg">
+              {% if get_cat.discount > 0 %}
+                  <div class="h6 btn btn-dark btn-sm text-start rounded-0">-{{get_cat.discount}}<i class="fa fa-fw fa-percent fs-xs" aria-hidden="true"></i></div>
+                  {% endif %}
+              <!-- <div class="card-text">{{get_cat.desc}}</div> -->
+              <div class="d-flex align-items-center justify-content-between">
+                <h2 class="name-tag font-weight-bold pt-1">{{ get_cat.name }}</h2>
+                <div class="h6 font-weight-bold">{{ get_cat.price }} kr</div>
+              </div>
+                <div class="d-flex align-items-center justify-content-between">  
+                </div>
+                <div class="d-flex justify-content-end">
+                  <form action="{{url_for('AddCart')}}" method="post">
+                    <div class="d-flex">
+                        <input class="form-control text-dark text-center me-3" type="hidden" name="quantity"
+                            value="1" style="max-width: 3rem" />
+                        {%set colors = get_cat.colors.split(",") %}
+                        <select class="form-control-sm me-3" style="visibility:hidden" name="colors" id="colors">
+                            {% for color in colors %}
+                            {% set col = color.split(':') %}
+                            <option value="{{col[0]}}">{{col[0] | capitalize }}</option>
+                            {% endfor %}
+                        </select>
+                        <input type="hidden" name="product_id" value="{{get_cat.id}}">
+                        <a href="{{url_for('single_page', id=get_cat.id)}}" class="btn btn-outline-dark flex-shrink-0">
+                          Details
+                        </a>
+                        <button type="submit" class="btn btn-outline-dark flex-shrink-0  ms-2 ">
+                            <i class="bi-cart-fill me-1"></i>
+                            Add to cart
+                        </button>
+                    </div>
+                </form>
+              </div>
+            </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  <nav class="d-flex justify-content-center">
+    {% if get_cat_prod.has_prev %}
+    <ul class="pagination pagination-md">
+      <li class="page-item"><a class="page-link"
+          href="{{url_for('get_category',id = get_cat.id,page=get_cat_prod.prev_num)}}">Previous</a></li>
+    </ul>
+    {% endif %}
+    {%if get_cat_prod.total > 6 %}
+    {% for page_num in get_cat_prod.iter_pages(left_edge=1, right_edge=2, left_current=2, right_current=2) %}
+    {% if page_num %}
+    {% if get_cat_prod.page == page_num %}
+    <ul class="pagination pagination-md">
+      <li class="page-item"><a class="page-link"
+          href="{{url_for('get_category',id = get_cat.id, page=page_num)}}">{{page_num}}</a></li>
+    </ul>
+    {% else %}
+    <ul class="pagination pagination-md">
+      <li class="page-item"><a class="page-link"
+          href="{{url_for('get_category',id = get_cat.id,page=page_num)}}">{{page_num}}</a></li>
+    </ul>
+    {% endif %}
+    {% else %}
+    ...
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+    {% if get_cat_prod.has_next %}
+    <ul class="pagination pagination-md">
+      <li class="page-item"><a class="page-link"
+          href="{{url_for('get_category',id = get_cat.id,page=get_cat_prod.next_num)}}">Next</a></li>
+    </ul>
+    {% endif %}
+  </nav>
+  <!---==============  ==================-->
+  <div class="container py-3">
+    <div class="row">
+      {% else %}
+      {% for product in products.items %}
+      <div class="col-lg-4 col-md-6 col-sm-10 offset-md-0 offset-sm-1 mb-5">
+        <div class="card" style="background: #ecebf3 !important">
+          {% if product.discount > 0 %}
+          <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">-{{product.discount}} %</div>
+          {% endif %}
+          <a href="{{url_for('single_page', id=product.id)}}"><img class="card-img-top" src="{{url_for('static', filename='images/'+ product.image_1)}}"
+            alt="{{product.name}}" /></a>
+          <div class="card-body shadow-lg">
+            
+            <!-- <div class="card-text">{{product.desc}}</div> -->
+            <div class="d-flex align-items-center justify-content-between">
+              <h2 class="name-tag font-weight-bold pt-1">{{ product.name }}</h2>
+              <!--{% if product.discount > 0 %}
+            <span class="text-danger">- {{product.discount}} %</span>
+                        <span>{{ product.price }} kr</span>
+                {% endif %}-->
+                <span>{{ product.price }} kr</span>
+            </div>
+              <div class="d-flex justify-content-end">
+                <form action="{{url_for('AddCart')}}" method="post">
+                  <div class="d-flex">
+                      <input class="form-control text-dark text-center me-3" type="hidden" name="quantity"
+                          value="1" style="max-width: 3rem" />
+                      {%set colors = product.colors.split(",") %}
+                      <select class="form-control-sm me-3" style="visibility:hidden" name="colors" id="colors">
+                          {% for color in colors %}
+                          {% set col = color.split(':') %}
+                          <option value="{{col[0]}}">{{col[0] | capitalize }}</option>
+                          {% endfor %}
+                      </select>
+                      <input type="hidden" name="product_id" value="{{product.id}}">
+                      <a href="{{url_for('single_page', id=product.id)}}" class="btn btn-outline-dark flex-shrink-0">
+                        Details
+                      </a>
+                      <button type="submit" class="btn btn-outline-dark flex-shrink-0  ms-2 ">
+                          <i class="bi-cart-fill me-1"></i>
+                          Add to cart
+                      </button>
+                  </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  <nav class="d-flex justify-content-center">
+    {% if products.has_prev %}
+    <ul class="pagination pagination-md">
+      <li class="page-item"><a class="page-link" href="{{url_for('home',page=products.prev_num)}}">Previous</a></li>
+    </ul>
+    {% endif %}
+    {%if products.total > 6 %}
+    {% for page_num in products.iter_pages(left_edge=1, right_edge=2, left_current=2, right_current=2) %}
+    {% if page_num %}
+    {% if products.page == page_num %}
+    <ul class="pagination pagination-md">
+      <li class="page-item"><a class="page-link" href="{{url_for('home',page=page_num)}}">{{page_num}}</a></li>
+    </ul>
+    {% else %}
+    <ul class="pagination pagination-md">
+      <li class="page-item"><a class="page-link" href="{{url_for('home',page=page_num)}}">{{page_num}}</a></li>
+    </ul>
+    {% endif %}
+    {% else %}
+    ...
+    {% endif %}
+    {% endfor %}
+    {%endif%}
+    {% if products.has_next %}
+    <ul class="pagination pagination-md">
+      <li class="page-item"><a class="page-link" href="{{url_for('home',page=products.next_num)}}">Next</a></li>
+    </ul>
+    {% endif %}
+  </nav>
+  {% endif %}
+  </div>
+  </div>
+</section>
+
+
+{% endblock content%}
