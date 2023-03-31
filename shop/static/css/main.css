@@ -1,7 +1,26 @@
+*{
+	font-family: 'Khand', sans-serif;
+
+}
 body {
     background-color: #ecebf3 !important;
+
     
 }
+.btn-change{
+	color: #000000 !important;
+	border-color: #000000!important;
+    -webkit-transition: all 0.5s ease-in-out;
+}
+.btn-change:hover{
+	background:rgba(106, 17, 203, 1)!important;
+	color: #fff !important;
+	border-color: none!important;
+
+}
+
+
+
 
 .gradient-custom {
     /* fallback for old browsers */
@@ -24,10 +43,8 @@ body {
     color: rgb(219, 219, 219) !important;
 }
 
-/********* Product name & description ****************/
-.name-tag{
-    font-family:'Courier New', Courier, monospace;
-}
+
+
 .card-text{
     font-size: 14px;
     font-weight: 300;

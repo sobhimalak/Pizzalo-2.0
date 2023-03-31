@@ -18,7 +18,7 @@
             <a class="nav-link active" aria-current="page" href="{{url_for('admin')}}">Product</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{url_for('brands')}}">Brand</a>
+            <a class="nav-link" href="{{url_for('brands')}}">Size</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{{url_for('categories')}}">Categories</a>
@@ -29,8 +29,8 @@
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
               <a class="dropdown-item" href="{{url_for('addproduct')}}">Add product</a>
-                  <a class="dropdown-item" href="{{url_for('addbrand')}}">add brand</a>
-                  <a class="dropdown-item" href="{{url_for('addcategory')}}">add category</a>
+                  <a class="dropdown-item" href="{{url_for('addbrand')}}">Add Size</a>
+                  <a class="dropdown-item" href="{{url_for('addcategory')}}">Add category</a>
             </ul>
           </li>
         </ul>
@@ -39,9 +39,10 @@
       <div class="d-flex align-items-center flex-sm-row">
         
         <!-- LogOut Icon -->
-        <a class="me-3" href="{{url_for('logout')}}" style="text-decoration: none; font-weight:inherit; display: contents; color:cornflowerblue">
-          Log out <i class="bi bi-box-arrow-in-right"></i>
-        </a>
+        <a  class="text-reset me-3" href="{{url_for('logout')}}" style="text-decoration: none;" 
+      data-toggle="tooltip" data-placement="bottom" title="Log Out">
+        <i class="bi bi-box-arrow-in-right"></i>
+      </a>
     <!-- Right elements -->
   </div>
     </div>

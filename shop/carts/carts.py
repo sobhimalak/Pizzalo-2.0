@@ -48,8 +48,8 @@ def getCart():
         discount = (product['discount']/100) * float(product['price'])
         subtotal += float(product['price']) * int(product['quantity'])
         subtotal -= discount
-        tax = ("%0.2f" % (0.6 * float(subtotal)))
-        grandTotal = float("%.2f" % (1.06 * subtotal))
+        tax = ("%0.2f" % (0.25 * float(subtotal)))
+        grandTotal = float("%.2f" % (1.25 * subtotal))
     return render_template('products/carts.html', tax=tax, grandTotal=grandTotal, brands=brands(), categories=categories())
 
 @app.route('/updatecart/<int:code>', methods=['POST'])
@@ -88,10 +88,10 @@ def deleteitem(id):
 
 
 
-@app.route('/empty')
-def empty_cart():
+@app.route('/clearcart')
+def clearcart():
     try:
-        session.clear()
+        session.pop('Shoppingcart', None)
         return redirect(url_for('home'))
     except Exception as e:
         print(e)

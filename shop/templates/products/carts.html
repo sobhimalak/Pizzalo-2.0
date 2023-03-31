@@ -7,10 +7,9 @@
     <div class="row">
         <section class="vh-100">
             <div class="container shadow-lg h-100">
-                <tr><a href="{{url_for('home')}}" class="btn btn-dark flex-shrink-0 col-2 my-2 " style="background-color:rgba(106, 17, 203, 1)!important">Continue
-                    Shopping</a></tr>       
+                       
                 <div class="row d-flex h-100">
-                    <div class="col-12 col-md-12 col-lg-6 col-xl-12">
+                    <div class="col-12 col-md-12 col-lg-6 col-xl-12 mt-5">
                         <div class="card" style="border-radius: 0.3rem">
                     <div class="card-body d-flex justify-content-center p-5 " style="background: #ecebf3 !important">
                         <table class="table table-lg text-center align-middle">
@@ -33,11 +32,11 @@
                                     <td>{{loop.index}}</td>
                                     <td><img src="{{url_for('static', filename='images/'+ product.image)}}" 
                                         alt="{{product.name}}" width="45rem" height="45rem"></td>
-                                    <td>{{product.name}}</td>
+                                    <td>{{product.name |capitalize}}</td>
                                     <form action="{{url_for('updatecart', code=key)}}" method="post">
                                     <td>
                                         {%set colors = product.colors.split(",") %}
-                                        <select class="form-control text-dark" style="background-color:transparent" name="color" id="color">
+                                        <select class="form-control text-dark rounded-0" style="background-color:transparent" name="color" id="color">
                                             <option value="{{product.colors}}" class="text-decoration-none">{{product.colors|capitalize}}</option>
                                             {% for color in colors %}
                                             {% set col = color.split(':') %}
@@ -46,16 +45,16 @@
                                         </select>
                                     </td>
                                     <td>{{product.price}} kr</td>
-                                    <td><input class="form-control text-dark " type="number" name="quantity" min="1" max="10" value="{{product.quantity}}"></td>
+                                    <td><input class="form-control text-dark rounded-0" type="number" name="quantity" min="1" max="10" value="{{product.quantity}}"></td>
                                     {% if product.discount > 0%}
-                                    <td>{{product.discount}}% saved {{discount}}</td>
+                                    <td>{{product.discount}}% &nbsp;saved &nbsp;{{discount}}</td>
                                     {% else %}
                                     <td></td>
                                     {% endif %}
                                     {% set subtotal = product.quantity|int * product.price|float %}
                                     <td>{{"%0.2f"|format((subtotal|float)- discount|float)}}</td>
                                     <!-- UPDATE BUTTON -->
-                                    <td><button href="#" type="submit" class="btn btn-outline-dark flex-shrink-0">Update</button></td>
+                                    <td><button href="#" type="submit" class="btn btn-change flex-shrink-0 rounded-0">Update</button></td>
                                 </form>
                                 <!-- DELETE BUTTON   -->
                                     <td class="text-center align-middle"><a href="{{url_for('deleteitem', id=key)}}" type="submit">
@@ -67,6 +66,11 @@
                             </tbody>
                         </table>
                     </div>
+                    <div class="container d-flex flex-row justify-content-end" style="background: #ecebf3 !important">
+                        <tr><a href="{{url_for('home')}}" class="btn btn-change flex-shrink-0 col-2 my-2 me-3 rounded-0 ">Continue
+                            Shopping</a></tr>  
+                        <tr><a href="{{url_for('clearcart')}}" class="btn btn-change flex-shrink-0 col-2 my-2 rounded-0">Clear Cart</a></tr>
+                    </div>
                 </div>
                 <div class="card" style="border-radius: 0.3rem">
                         <div class="card-body d-flex justify-content-center p-5" style="background: #ecebf3 !important">
@@ -75,7 +79,6 @@
                                     <p class="text-dark-50">Enter a Product brand</p>
                                         <p class="text-dark-50">Tax: {{tax}}</p>
                                         <p class="text-dark-50">Grand Total: {{grandTotal}} kr</p>
-                                    </tr>
                                 </div>
                             </div>
                         </div>
