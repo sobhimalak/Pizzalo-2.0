@@ -2,7 +2,7 @@ from flask import render_template,session,request,redirect,url_for,flash,current
 from flask_login import login_required, current_user, logout_user, login_user
 from shop import app,db, photos, search, bcrypt, login_manager
 from .forms import CustomerRegisterForm, CustomerLoginForm
-from .models import Register
+from .models import Register, CustomerOrder
 import secrets
 import os
 
@@ -47,7 +47,8 @@ def get_order():
         customer_id = current_user.id
         invoice = secrets.token.hex(5)
         try:
-            pass
+            order = CustomerOrder(invoice, customer_id, orders=session['Shoppingcart'])
+            db.session.add()()
         except Exception as e:
             print(e)
             flash(f'Something went Wrong while get order','danger')
