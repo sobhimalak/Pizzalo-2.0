@@ -1,5 +1,7 @@
 FROM python:3.8
 
+ENV DOCKER_HOST=0.0.0.0
+
 WORKDIR /usr/src/app
 
 COPY . .
