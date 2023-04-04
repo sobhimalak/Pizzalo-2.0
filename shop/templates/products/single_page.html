@@ -59,14 +59,15 @@
       <div class="col mb-5">
         <div class="card h-100">
           <!-- Product image-->
-          <img class="card-img-top" src="" alt="..." />
+          <img class="card-img-top" src="{{url_for('static' ,filename='images/' + product.image_1)}}"
+          alt="{{product.name}}" />
           <!-- Product details-->
           <div class="card-body p-4">
             <div class="text-center">
               <!-- Product name-->
-              <h5 class="fw-bolder">Fancy Product</h5>
+              <h5 class="fw-bolder">{{product.name |capitalize}}</h5>
               <!-- Product price-->
-              $40.00 - $80.00
+              {{ product.price }} kr
             </div>
           </div>
           <!-- Product actions-->

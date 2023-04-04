@@ -1,0 +1,75 @@
+{% extends 'layout.html' %} {% block content %}
+{% from "_formhelpers.html" import render_field %}
+
+
+<section class="vh-100 gradient-custom">
+  <div class="container py-12 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-6">
+        <div class="card bg-dark text-white" style="border-radius: 1rem;">
+          <div class="card-body p-5 text-center">
+
+            <div>
+              <div class="text-center">
+                  <img src="/static/logo-white.png" style="width: 255px;" alt="logo">
+                </div>
+              <h2 class="fw-bold mb-2 text-uppercase">Register User</h2>
+              <p class="text-white-50 mb-0">Please Register if you are a new user!</p>
+                {% from "_formhelpers.html" import render_field %}
+                {% include '_messages.html' %}
+              <form method="post">
+                {{ form.csrf_token }}
+                <div class="form-outline form-white  text-start w-100">
+                  {{ render_field(form.name,placeholder="Name", class="form-control form-control-sm rounded-0") }}
+                </div>
+                <div class="row">
+                  <div class="form-outline form-white text-start w-50">
+                    {{ render_field(form.username,placeholder="Username", class="form-control form-control-sm rounded-0") }}
+                  </div>
+                  <div class="form-outline form-white  text-start w-50">
+                    {{ render_field(form.email, placeholder="Email", class="form-control form-control-sm") }}
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="form-outline form-white text-start w-50">
+                    {{ render_field(form.password, placeholder="Password",class="form-control form-control-sm rounded-0") }}
+                  </div>
+                  <div class="form-outline form-white text-start w-50 ">
+                    {{ render_field(form.confirm, placeholder="Confirm password",class="form-control form-control-sm rounded-0") }}
+                </div>
+                </div>
+                <div class="row">
+                <div class="form-outline form-white text-start w-50">
+                    {{ render_field(form.country, placeholder="Country",class="form-control form-control-sm rounded-0") }}
+                </div>
+                <div class="form-outline form-white text-start w-50">
+                  {{ render_field(form.city, placeholder="City",class="form-control form-control-sm rounded-0") }}
+              </div>
+                </div>
+                <div class="row">
+                
+                <div class="form-outline form-white text-start w-50">
+                    {{ render_field(form.address, placeholder="Address",class="form-control form-control-sm rounded-0") }}
+                </div>
+                <div class="form-outline form-white mb-4 text-start w-50">
+                    {{ render_field(form.postal_code, placeholder="Post number",class="form-control form-control-sm rounded-0") }}
+                </div>
+                </div>
+                <div class="form-control mb-1 text-start w-100 rounded-0 mb-4">
+                    {{ form.profile() }}
+                </div>
+                {{ form.submit(class="btn text-light flex-shrink-0 col-8 my-2 me-3 rounded-0", style="background:rgba(106, 17, 203, 1)!important;") }}
+                <div>
+                  <p class="mb-0">Have an account <a href="{{ url_for('login') }}" class="text-white-50">Log in</a>
+                  </p>
+                </div>  
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock content %}

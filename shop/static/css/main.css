@@ -1,12 +1,31 @@
-*{
+body{
 	font-family: 'Khand', sans-serif;
 
 }
+form {
+    font-family:Arial, Helvetica, sans-serif;
+	font-weight: 100!important;
+}
+
 body {
     background-color: #ecebf3 !important;
 
     
 }
+
+/********* ul for error msg on login or register client user **********/
+ul {
+    list-style: none!important;
+    padding-left: 0;
+	color: red !important;
+	font-weight:100;
+	}
+.navbar-nav{
+	font-weight:400!important;
+	
+}
+/********* END OF ul for error msg on login or register client user **********/
+
 .btn-change{
 	color: #000000 !important;
 	border-color: #000000!important;
@@ -18,9 +37,6 @@ body {
 	border-color: none!important;
 
 }
-
-
-
 
 .gradient-custom {
     /* fallback for old browsers */
@@ -81,16 +97,15 @@ body {
     background-color: #5A4181 !Important;
     border: solid 1px #5A4181;
 }
+/********* END pagination **********/
 
 
 .cart_count
 {
 	position: absolute;
-	bottom: -1px;
-	right: 6.05em;
     top: 38%;
-	width: 25px;
-	height: 25px;
+	width: 20px;
+	height: 20px;
 	background: rgba(106, 17, 203, 1);
 	border-radius: 50%;
 	text-align: center;
@@ -98,7 +113,7 @@ body {
 .cart_count span
 {
 	display: block;
-	line-height: 23px;
+	line-height: 18px;
 	font-size: 12px;
 	color: #FFFFFF;
 	-webkit-transform: translateY(1px);
@@ -107,36 +122,28 @@ body {
 	-o-transform: translateY(1px);
 	transform: translateY(1px);
 }
+
 .cart_icon img
 {
-	width: 100%;
+	width: 60%;
+	margin-right: -16rem;
 }
-.cart_content
-{
-	margin-left: 28px;
-}
-.cart_text a
-{
-	font-size: 18px;
-	font-weight: 400;
-	color: #000000;
-	-webkit-transition: all 200ms ease;
-	-moz-transition: all 200ms ease;
-	-ms-transition: all 200ms ease;
-	-o-transition: all 200ms ease;
-	transition: all 200ms ease;
-}
-.cart_text a:hover
-{
-	color: #0e8ce4;
-}
+
 .cart_price
 {
 	font-size: 14px;
-	color: #a3a3a3;
+	color: #000000;
 	margin-top: -2px;
 }
 
-/*********************************
-3.3 Main Navigation
-*********************************/
+/********* search placeholder *********/
+#myInput::placeholder {
+	color: #000000;
+  }
+  
+  #myInput.scroll::placeholder {
+	color: #fff;
+  }
+/********* End search placeholder *********/
+
+  

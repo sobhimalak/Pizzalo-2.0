@@ -10,7 +10,7 @@ import os
 @app.route('/admin')
 def admin():
     if 'email' not in session:
-        flash(f'Please login first','danger')
+        flash(f'Please Login First','danger')
         return redirect(url_for('login'))
     products = Addproduct.query.all()
     return render_template('admin/index.html', title='Admin Page', products=products)
@@ -50,7 +50,7 @@ def login():
             flash(f'Welcome {form.email.data} You are logged in now','success')
             return redirect(request.args.get('next') or url_for('admin'))
         else:
-            flash('Wrong Password please try again', 'danger')
+            flash('Wrong Password Please Try Again', 'danger')
     return render_template('admin/login.html', title = 'Login Page',form=form)
 
 # Define a logout route

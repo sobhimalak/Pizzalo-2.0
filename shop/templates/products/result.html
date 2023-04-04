@@ -1,0 +1,66 @@
+
+
+{% extends 'layout.html' %} {% block content %}
+
+{% include 'navbar.html' %}
+{% for product in products %}
+{%endfor%}
+<!-- ======= Product cards Section ======= -->
+<section id="products">
+  <header class="section-header text-center mt-5">
+    <h2 class="display-2 text-uppercase">Our Products</h2>
+    <p>Select From Our Products</p>
+  </header>
+  <div class="container py-3">
+    <div class="row">
+      {% for product in products %}
+      <div class="col-lg-4 col-md-6 col-sm-10 offset-md-0 offset-sm-1 mb-5">
+        <div class="card" style="background: #ecebf3 !important">
+          {% if product.discount > 0 %}
+          <div class="badge bg-light position-absolute rounded-0" style="top: 0.5rem; right: 0.5rem; 	color:rgba(106, 17, 203, 1)!important;">
+            -{{product.discount}} <i class="bi bi-percent"></i>
+        </div>
+          {% endif %}
+          <a href="{{url_for('single_page', id=product.id)}}"><img class="card-img-top"
+              src="{{url_for('static', filename='images/'+ product.image_1)}}" alt="{{product.name}}" /></a>
+          <div class="card-body shadow-lg">
+            <!-- <div class="card-text">{{product.desc}}</div> -->
+            <div class="d-flex align-items-center justify-content-between">
+              <h2 class="name-tag font-weight-bold pt-1">{{ product.name }}</h2>
+              <span>{{ product.price }} kr</span>
+            </div>
+            <div class="d-flex justify-content-end">
+              <form action="{{url_for('AddCart')}}" method="post">
+                <div class="d-flex">
+                  <input class="form-control text-dark text-center me-3" type="hidden" name="quantity" value="1"
+                    style="max-width: 3rem" />
+                  {% set colors = product.colors.split(",") %}
+                  <select class="form-control-sm me-3" style="visibility:hidden" name="colors" id="colors">
+                    {% for color in colors %}
+                    {% set col = color.split(':') %}
+                    <option value="{{col[0]}}">{{col[0] | capitalize }}</option>
+                    {% endfor %}
+                  </select>
+                  <input type="hidden" name="product_id" value="{{product.id}}">
+                    <!---======= Details btn ========-->
+                  <a href="{{url_for('single_page', id=product.id)}}"
+                    class="btn btn-change flex-shrink-0 rounded-0">
+                    <i class="bi bi-info-square"></i>
+                  </a>
+                  <!---======= ADD TO CART btn ========-->
+                  <button type="submit" class="btn btn-change flex-shrink-0  ms-2 rounded-0">
+                    <i class="bi bi-bag-plus"></i>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+
+{% endblock content%}
