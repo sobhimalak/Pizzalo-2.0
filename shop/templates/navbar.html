@@ -57,8 +57,8 @@
               <div class="cart_content">
                   <div class="cart_price me-2">{{grandTotal}}</div>
               </div>
-              <div class="cart_icon position-sticky" >
-                  <img src="{{ url_for('static', filename='bag.svg')}}"  alt="">
+              <div class="cart_icon position-sticky mx-5" >
+                  <img src="{{ url_for('static', filename='bag.png')}}" style="width: 2em; height:2em" alt="">
                   <div class="cart_count"><span>{{ session['Shoppingcart']|length }}</span></div>
               </div>
               
