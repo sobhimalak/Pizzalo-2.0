@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <title>Get pdf</title>
+  </head>
+  <body>
+  
+    <div class="container mt-5">
+        {% include '_messages.html' %}
+        <div class="row">
+            <section class="vh-100">
+                <div class="container shadow-lg h-100">
+                    <div class="row d-flex h-100">
+                        <div class="col-12 col-md-12 col-lg-6 col-xl-12 mt-5">
+                            <div class="container d-flex flex-row pb-2">
+                                <div class="container d-flex">
+                                    <tr><span class="text-uppercase" style="font-size: 40px;">Pizzalo</span></tr>
+                                    <tr><span class="text-uppercase" style="font-size: 40px; margin-left:10em">Invoice</span></tr>
+                                </div>
+                            </div>
+                            
+                            <div class="container d-flex flex-row pb-2">
+                                <div class="container d-flex ">
+                                    <ul class="list-unstyled">
+                                        <li class="text-muted">To: <span>{{customer.name}}</span></li>
+                                        <li class="text-muted text-capitalize">{{customer.postal_code}}
+                                            {{customer.city}}</li>
+                                        <li class="text-muted">{{customer.country}}</li>
+                                    </ul>
+                                </div>
+                                <div class="container d-flex ">
+                                    <li class="text-muted list-unstyled"><span class="fw-bold">Number:
+                                        </span>{{orders.invoice}}</li>
+                                    <li class="text-muted list-unstyled"><span class="fw-bold">Creation Date: </span>{{
+                                        current_time }}</li>
+                                    <li class="text-muted list-unstyled"><span class="me-1 fw-bold">Status:</span><span
+                                            class="badge text-black fw-bold rounded-0" style="background-color:#87e700">
+                                            {{orders.status}}</span></li>
+                                </div>
+
+                                
+                            </div>
+
+
+                            <div class="card" style="border-radius: 0.3rem">
+                                <div class="card-body d-flex justify-content-center p-5 "
+                                    style="background: #ecebf3 !important">
+
+                                    <table class="table table-lg text-center align-middle">
+                                        <thead>
+                                            <th>#</th>
+                                            <th>Name</th>
+                                            <th>Allergies</th>
+                                            <th>Price</th>
+                                            <th>Quantity</th>
+                                            <th>Discount</th>
+                                            <th>Subtotal</th>
+                                            <th></th>
+                                            <th></th>
+                                        </thead>
+                                        <tbody>
+                                            {% for key, product in orders.orders.items() %}
+                                            {% set discount = "%0.2f"|format((product.discount/100) *
+                                            product.price|float)%}
+                                            <tr>
+                                                <td>{{loop.index}}</td>
+
+                                                <td>{{product.name |capitalize}}</td>
+                                                <form action="{{url_for('updatecart', code=key)}}" method="post">
+                                                    <td>
+                                                        {{product.color}}
+                                                    </td>
+                                                    <td>{{product.price}} kr</td>
+                                                    <td>{{product.quantity}}</td>
+                                                    {% if product.discount > 0%}
+                                                    <td>{{product.discount}}% &nbsp;saved &nbsp;{{discount}}</td>
+                                                    {% else %}
+                                                    <td></td>
+                                                    {% endif %}
+                                                    {% set subtotal = product.quantity|int * product.price|float %}
+                                                    <td>{{"%0.2f"|format((subtotal|float)- discount|float)}}</td>
+
+                                                </form>
+
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="card d-flex mt-2 justify-content-last" style="background: #6f17cd !important">
+                                <div class="card-body text-end text-white pb-2">
+                                    <h3 class="text-uppercase mt-3">Cart totals</h3>
+                                    <li class="list-unstyled"><span class="fw-bold">Tax(25%): </span> {{tax}} kr</li>
+                                    <li class="list-unstyled mb-3"><span class="fw-bold">Total Amount: </span><span
+                                            class="h4">{{grandTotal}} kr</span></li>
+                                    </a></li>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+   <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+  </body>
+</html>

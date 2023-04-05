@@ -1,4 +1,4 @@
-from flask import render_template,session,request,redirect,url_for,flash,current_app,send_from_directory, current_app
+from flask import render_template,session,request,redirect,url_for,flash,current_app,send_from_directory, current_app, make_response
 from flask_login import login_required, current_user, logout_user, login_user
 from shop import app,db, photos, search, bcrypt, login_manager
 from .forms import CustomerRegisterForm, CustomerLoginForm
@@ -6,7 +6,35 @@ from .models import Register, CustomerOrder
 import secrets
 import os
 from datetime import datetime
+import pdfkit
+import stripe
 
+Publishable_key = 'pk_test_51LzbrUKT5wycLeY080JK1SllNuBu5aZdr8uG142TW1moh1oJmbhIcryLgMR4lBBqMWD7mOFFwzNf75ndql9taUgF00C87cYE1r'
+stripe.api_key = 'sk_test_51LzbrUKT5wycLeY0QMCIgHPohPD7KUrO3VAbGI5e7JPKsNQFlhd6LmoF9Z1K5ny2jNZ14FCzCzCJa0BQrO1GhPck009q6F7fvy'
+
+@app.route('/payment',methods=['POST'])
+@login_required
+def payment():
+    invoice = request.form.get('invoice')
+    amount = request.form.get('amount')
+    customer = stripe.Customer.create(
+        email=request.form['stripeEmail'],
+        source=request.form['stripeToken'],
+    )
+    charge = stripe.Charge.create(
+      customer=customer.id,
+      description='Pizzalo',
+      amount=amount,
+      currency='usd',
+    )
+    orders =  CustomerOrder.query.filter_by(customer_id = current_user.id,invoice=invoice).order_by(CustomerOrder.id.desc()).first()
+    orders.status = 'Paid'
+    db.session.commit()
+    return redirect(url_for('thank_you'))
+
+@app.route('/thank_you')
+def thank_you():
+    return render_template('customer/thank_you.html')
 
 
 @app.route('/customer/register', methods=['GET','POST'])
@@ -40,7 +68,12 @@ def customer_logout():
     logout_user()
     return redirect(url_for('home'))
 
-
+def updateshoppingcart():
+    for key, shopping in session['Shoppingcart'].items():
+        session.modified = True
+        del shopping['image']
+        del shopping['colors']
+    return updateshoppingcart
 
         
 @app.route('/getorder')
@@ -49,6 +82,7 @@ def get_order():
     if current_user.is_authenticated:
         customer_id = current_user.id
         invoice = secrets.token_hex(5)
+        updateshoppingcart()
         try:
             order = CustomerOrder(invoice=invoice,customer_id=customer_id,orders=session['Shoppingcart'])
             db.session.add(order)
@@ -84,3 +118,32 @@ def orders(invoice):
     else:
         return redirect(url_for('customerLogin'))
     return render_template('customer/order.html', invoice=invoice, tax=tax,subTotal=subTotal,grandTotal=grandTotal,customer=customer,orders=orders,current_time=current_time)
+
+
+@app.route('/get_pdf/<invoice>', methods=['POST'])
+@login_required
+def get_pdf(invoice):
+    if current_user.is_authenticated:
+        grandTotal = 0
+        subTotal = 0
+        customer_id = current_user.id
+        if request.method =="POST":
+            customer = Register.query.filter_by(id=customer_id).first()
+            orders = CustomerOrder.query.filter_by(customer_id=customer_id, invoice=invoice).order_by(CustomerOrder.id.desc()).first()
+            for _key, product in orders.orders.items():
+                discount = (product['discount']/100) * float(product['price'])
+                subTotal += float(product['price']) * int(product['quantity'])
+                subTotal -= discount
+                tax = ("%.2f" % (.25 * float(subTotal)))
+                grandTotal = float("%.2f" % (1.25 * subTotal))
+                # Get the current date and time
+            now = datetime.now()
+            current_time = now.strftime("%Y-%m-%d")
+
+            rendered =  render_template('customer/pdf.html', invoice=invoice, tax=tax,grandTotal=grandTotal,customer=customer,orders=orders)
+            pdf = pdfkit.from_string(rendered, False)
+            response = make_response(pdf)
+            response.headers['content-Type'] ='application/pdf'
+            response.headers['content-Disposition'] ='inline; filename='+invoice+'.pdf'
+            return response
+    return request(url_for('orders'))
