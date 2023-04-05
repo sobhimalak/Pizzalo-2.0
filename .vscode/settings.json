@@ -2,6 +2,7 @@
     "cSpell.words": [
         "Addproduct",
         "Addproducts",
+        "wsgi",
         "wtforms"
     ],
     "python.analysis.typeCheckingMode": "off"
