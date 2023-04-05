@@ -6,140 +6,148 @@
     <div class="row">
         <section class="vh-100">
             <div class="container shadow-lg h-100">
-                       
+
                 <div class="row d-flex h-100">
                     <div class="col-12 col-md-12 col-lg-6 col-xl-12 mt-5">
                         <a class="navbar-brand" href="{{url_for('landing_page')}}">
-                            <img src="{{ url_for('static', filename='logo-no-bg.svg')}}" height="55" loading="lazy" /></a>
-                            <div class="container d-flex">
-                                <div class="col-5 text-start pb-2 "> 
-                                    <ul class="list-unstyled">
-                                      <li class="text-muted">To: <span>{{customer.name}}</span></li>
-                                      <li class="text-muted text-capitalize">{{customer.postal_code}} {{customer.city}}</li>
-                                      <li class="text-muted">{{customer.country}}</li>
-                                    </ul>
-                                </div>
-                                <h3 class="text-uppercase text-center mt-3" style="font-size: 40px;">Invoice</h3>
-                            <div class="col-5 text-end pb-2">
-                                <li class="text-muted list-unstyled"><span
-                                    class="fw-bold">Number: </span>{{orders.invoice}}</li>
-                                <li class="text-muted list-unstyled"><span
-                                    class="fw-bold">Creation Date: </span>{{ current_time }}</li>
-                                <li class="text-muted list-unstyled"><span
-                                    class="me-1 fw-bold">Status:</span><span class="badge text-black fw-bold rounded-0" style="background-color:#87e700">
-                                    {{orders.status}}</span></li>
-                              </div>
-
+                            <img src="{{ url_for('static', filename='logo-no-bg.svg')}}" height="55"
+                                loading="lazy" /></a>
+                        <div class="container d-flex">
+                            <div class="col-5 text-start pb-2 ">
+                                <ul class="list-unstyled">
+                                    <li class="text-muted">To: <span>{{customer.name}}</span></li>
+                                    <li class="text-muted text-capitalize">{{customer.postal_code}} {{customer.city}}
+                                    </li>
+                                    <li class="text-muted">{{customer.country}}</li>
+                                </ul>
                             </div>
-                        
+                            <h3 class="text-uppercase text-center mt-3" style="font-size: 40px;">Invoice</h3>
+                            <div class="col-5 text-end pb-2">
+                                <li class="text-muted list-unstyled"><span class="fw-bold">Number:
+                                    </span>{{orders.invoice}}</li>
+                                <li class="text-muted list-unstyled"><span class="fw-bold">Creation Date: </span>{{
+                                    current_time }}</li>
+                                <li class="text-muted list-unstyled"><span class="me-1 fw-bold">Status:</span><span
+                                        class="badge text-black fw-bold rounded-0" style="background-color:#87e700">
+                                        {{orders.status}}</span></li>
+                            </div>
+
+                        </div>
+
 
                         <div class="card" style="border-radius: 0.3rem">
-                    <div class="card-body d-flex justify-content-center p-5 " style="background: #ecebf3 !important">
-                        
-                        <table class="table table-lg text-center align-middle">
-                            <thead>
-                                <th>#</th>
-                                <th>Name</th>
-                                <th>Allergies</th>
-                                <th>Price</th>
-                                <th>Quantity</th>
-                                <th>Discount</th>
-                                <th>Subtotal</th>
-                                <th></th>
-                                <th></th>
-                            </thead>
-                            <tbody>
-                                {% for key, product in orders.orders.items() %}
-                                {% set discount = "%0.2f"|format((product.discount/100) * product.price|float)%}
-                                <tr>
-                                    <td>{{loop.index}}</td>
-                                    
-                                    <td>{{product.name |capitalize}}</td>
-                                    <form action="{{url_for('updatecart', code=key)}}" method="post">
-                                    <td>
-                                        {{product.color}}
-                                    </td>
-                                    <td>{{product.price}} kr</td>
-                                    <td>{{product.quantity}}</td>
-                                    {% if product.discount > 0%}
-                                    <td>{{product.discount}}% &nbsp;saved &nbsp;{{discount}}</td>
-                                    {% else %}
-                                    <td></td>
-                                    {% endif %}
-                                    {% set subtotal = product.quantity|int * product.price|float %}
-                                    <td>{{"%0.2f"|format((subtotal|float)- discount|float)}}</td>
-                                    
-                                </form>
-                                
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="container d-flex flex-row" style="background: #ecebf3 !important">
-                        <div class="container d-flex justify-content-between">
-                            <form action="{{url_for('get_pdf', invoice=orders.invoice)}}" method="post">
-                                <button type="submit" class="btn border-0 btn-change rounded-0"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-filetype-pdf" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd" d="M14 4.5V14a2 2 0 0 1-2 2h-1v-1h1a1 1 0 0 0 1-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5L14 4.5ZM1.6 11.85H0v3.999h.791v-1.342h.803c.287 0 .531-.057.732-.173.203-.117.358-.275.463-.474a1.42 1.42 0 0 0 .161-.677c0-.25-.053-.476-.158-.677a1.176 1.176 0 0 0-.46-.477c-.2-.12-.443-.179-.732-.179Zm.545 1.333a.795.795 0 0 1-.085.38.574.574 0 0 1-.238.241.794.794 0 0 1-.375.082H.788V12.48h.66c.218 0 .389.06.512.181.123.122.185.296.185.522Zm1.217-1.333v3.999h1.46c.401 0 .734-.08.998-.237a1.45 1.45 0 0 0 .595-.689c.13-.3.196-.662.196-1.084 0-.42-.065-.778-.196-1.075a1.426 1.426 0 0 0-.589-.68c-.264-.156-.599-.234-1.005-.234H3.362Zm.791.645h.563c.248 0 .45.05.609.152a.89.89 0 0 1 .354.454c.079.201.118.452.118.753a2.3 2.3 0 0 1-.068.592 1.14 1.14 0 0 1-.196.422.8.8 0 0 1-.334.252 1.298 1.298 0 0 1-.483.082h-.563v-2.707Zm3.743 1.763v1.591h-.79V11.85h2.548v.653H7.896v1.117h1.606v.638H7.896Z"/>
-                                  </svg></button>
-                                  
-                                  <button type="submit" onclick="window.print()" class="btn border-0 btn-change rounded-0"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-printer" viewBox="0 0 16 16">
-                                    <path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z"/>
-                                    <path d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2H5zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4V3zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2H5zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1z"/>
-                                  </svg></button>
-                            </form>
-                           
-                                <tr>
-                                    {% if orders.status =='Paid' %}
-                                    {% else %}
-                                    <form action="{{url_for('payment')}}" method="POST">
-                                    {% set amount =  grandTotal.replace('.','') %}
-                                    <input type="hidden" name="amount" value="{{amount}}">
-                                    <input type="hidden" name="invoice" value="{{orders.invoice}}">
-                                    <script
-                                      src="https://checkout.stripe.com/checkout.js"
-                                      class="stripe-button"
-                                      data-key="pk_test_51LzbrUKT5wycLeY080JK1SllNuBu5aZdr8uG142TW1moh1oJmbhIcryLgMR4lBBqMWD7mOFFwzNf75ndql9taUgF00C87cYE1r"
-                                      data-name="{{customer.name}}"
-                                      data-description="Pizzalo Purchase"
-                                      data-amount=" {{amount}} "
-                                      data-currency="sek">
-                                    </script>
-                                  </form>
-                                  {% endif %}
-                                  
-                                </tr>
-                        </div>
-                    </div>
-                    <div class="container d-flex flex-row justify-content-end text-danger" style="background: #ecebf3 !important">
-                        Read Info in the End of the Page For Credit Card Entry
-                    </div>
+                            <div class="card-body d-flex justify-content-center p-5 "
+                                style="background: #ecebf3 !important">
 
-                </div>
-                <div class="card d-flex mt-2 shadow-lg" style="background: #6f17cd !important">
-                    <div class="card-body text-end text-white pb-2">
-                        <h3 class="text-uppercase mt-3">Cart totals</h3>
-                        <li class="list-unstyled"><span class="fw-bold">Tax(25%): </span> {{tax}} kr</li>
-                        <li class="list-unstyled"><span class="fw-bold">Total Amount: </span><span class="h4">{{grandTotal}} kr</span></li>
-                        <tr><a href="{{url_for('home')}}" class="btn btn-outline-light flex-shrink-0 col-2 my-2 me-3 rounded-0 float-lg-end">Continue
-                            Shopping</a></tr>
-                            <div class="container d-flex">
-                                <div class="card text-dark m-3 p-3 text-center">
-                                <span> Testing interactively:<br>
-                                When testing interactively, use a card number, such as 4242 4242 4242 4242. <br>
-                                Enter the card number in the Dashboard or in any payment form.<br>
-                                Use a valid future date, such as 12/34.<br>Use any three-digit CVC (four digits for American Express cards).<br>
-                                Use any value you like for other form fields.</span>
+                                <table class="table table-lg text-center align-middle">
+                                    <thead>
+                                        <th>#</th>
+                                        <th>Name</th>
+                                        <th>Allergies</th>
+                                        <th>Price</th>
+                                        <th>Quantity</th>
+                                        <th>Discount</th>
+                                        <th>Subtotal</th>
+                                        <th></th>
+                                        <th></th>
+                                    </thead>
+                                    <tbody>
+                                        {% for key, product in orders.orders.items() %}
+                                        {% set discount = "%0.2f"|format((product.discount/100) * product.price|float)%}
+                                        <tr>
+                                            <td>{{loop.index}}</td>
+
+                                            <td>{{product.name |capitalize}}</td>
+                                            <form action="{{url_for('updatecart', code=key)}}" method="post">
+                                                <td>
+                                                    {{product.color}}
+                                                </td>
+                                                <td>{{product.price}} kr</td>
+                                                <td>{{product.quantity}}</td>
+                                                {% if product.discount > 0%}
+                                                <td>{{product.discount}}% &nbsp;saved &nbsp;{{discount}}</td>
+                                                {% else %}
+                                                <td></td>
+                                                {% endif %}
+                                                {% set subtotal = product.quantity|int * product.price|float %}
+                                                <td>{{"%0.2f"|format((subtotal|float)- discount|float)}}</td>
+
+                                            </form>
+
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="container d-flex flex-row" style="background: #ecebf3 !important">
+                                <div class="container d-flex justify-content-between">
+                                    <form action="{{url_for('get_pdf', invoice=orders.invoice)}}" method="post">
+                                        <button type="submit" class="btn border-0 btn-change rounded-0"><svg
+                                                xmlns="http://www.w3.org/2000/svg" width="26" height="26"
+                                                fill="currentColor" class="bi bi-filetype-pdf" viewBox="0 0 16 16">
+                                                <path fill-rule="evenodd"
+                                                    d="M14 4.5V14a2 2 0 0 1-2 2h-1v-1h1a1 1 0 0 0 1-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5L14 4.5ZM1.6 11.85H0v3.999h.791v-1.342h.803c.287 0 .531-.057.732-.173.203-.117.358-.275.463-.474a1.42 1.42 0 0 0 .161-.677c0-.25-.053-.476-.158-.677a1.176 1.176 0 0 0-.46-.477c-.2-.12-.443-.179-.732-.179Zm.545 1.333a.795.795 0 0 1-.085.38.574.574 0 0 1-.238.241.794.794 0 0 1-.375.082H.788V12.48h.66c.218 0 .389.06.512.181.123.122.185.296.185.522Zm1.217-1.333v3.999h1.46c.401 0 .734-.08.998-.237a1.45 1.45 0 0 0 .595-.689c.13-.3.196-.662.196-1.084 0-.42-.065-.778-.196-1.075a1.426 1.426 0 0 0-.589-.68c-.264-.156-.599-.234-1.005-.234H3.362Zm.791.645h.563c.248 0 .45.05.609.152a.89.89 0 0 1 .354.454c.079.201.118.452.118.753a2.3 2.3 0 0 1-.068.592 1.14 1.14 0 0 1-.196.422.8.8 0 0 1-.334.252 1.298 1.298 0 0 1-.483.082h-.563v-2.707Zm3.743 1.763v1.591h-.79V11.85h2.548v.653H7.896v1.117h1.606v.638H7.896Z" />
+                                            </svg></button>
+
+                                        <button type="submit" onclick="window.print()"
+                                            class="btn border-0 btn-change rounded-0"><svg
+                                                xmlns="http://www.w3.org/2000/svg" width="26" height="26"
+                                                fill="currentColor" class="bi bi-printer" viewBox="0 0 16 16">
+                                                <path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z" />
+                                                <path
+                                                    d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2H5zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4V3zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2H5zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1z" />
+                                            </svg></button>
+                                    </form>
+
+                                    <tr>
+                                        {% if orders.status =='Paid' %}
+                                        {% else %}
+                                        <form action="{{url_for('payment')}}" method="POST">
+                                            {% set amount = grandTotal.replace('.','') %}
+                                            <input type="hidden" name="amount" value="{{amount}}">
+                                            <input type="hidden" name="invoice" value="{{orders.invoice}}">
+                                            <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                                                data-key="pk_test_51LzbrUKT5wycLeY080JK1SllNuBu5aZdr8uG142TW1moh1oJmbhIcryLgMR4lBBqMWD7mOFFwzNf75ndql9taUgF00C87cYE1r"
+                                                data-name="{{customer.name}}" data-description="Pizzalo Purchase"
+                                                data-amount=" {{amount}} " data-currency="sek">
+                                                </script>
+                                            
+                                            <div class="container d-flex text-danger">
+                                                <div class="card m-1 p-3 text-center">
+                                                    <span> Testing interactively:<br>
+                                                        When testing interactively, use a card number, such as 4242 4242 4242 4242
+                                                        <br>
+                                                        Enter the card number in the Dashboard or in any payment form.<br>
+                                                        Use a valid future date, such as 12/34.<br>Use any three-digit CVC (four
+                                                        digits for American Express cards).<br>
+                                                        Use any value you like for other form fields.</span>
+                                                </div>
+                                            </div>
+                                        </form>
+                                        {% endif %}
+
+                                    </tr>
                                 </div>
                             </div>
+
+
+                        </div>
+                        <div class="card d-flex mt-2 shadow-lg" style="background: #6f17cd !important">
+                            <div class="card-body text-end text-white pb-2">
+                                <h3 class="text-uppercase mt-3">Cart totals</h3>
+                                <li class="list-unstyled"><span class="fw-bold">Tax(25%): </span> {{tax}} kr</li>
+                                <li class="list-unstyled"><span class="fw-bold">Total Amount: </span><span
+                                        class="h4">{{grandTotal}} kr</span></li>
+                                <tr><a href="{{url_for('home')}}"
+                                        class="btn btn-outline-light flex-shrink-0 col-2 my-2 me-3 rounded-0 float-lg-end">Continue
+                                        Shopping</a></tr>
+                                
+                            </div>
+                        </div>
                     </div>
-                </div>  
-                </div>
                 </div>
             </div>
         </section>
     </div>
 </div>
 {% endblock content%}
-
-
