@@ -140,7 +140,7 @@ def get_pdf(invoice):
             now = datetime.now()
             current_time = now.strftime("%Y-%m-%d")
 
-            rendered =  render_template('customer/pdf.html', invoice=invoice, tax=tax,grandTotal=grandTotal,customer=customer,orders=orders)
+            rendered =  render_template('customer/pdf.html', invoice=invoice, tax=tax,grandTotal=grandTotal,customer=customer,orders=orders,current_time=current_time)
             pdf = pdfkit.from_string(rendered, False)
             response = make_response(pdf)
             response.headers['content-Type'] ='application/pdf'
