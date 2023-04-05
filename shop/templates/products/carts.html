@@ -10,7 +10,7 @@
                        
                 <div class="row d-flex h-100">
                     <div class="col-12 col-md-12 col-lg-6 col-xl-12">
-                        <tr><a href="{{url_for('home')}}" class="btn btn-change flex-shrink-0 col-2 my-2 me-3 rounded-0">Continue
+                        <tr><a href="{{url_for('home')}}" class="btn btn-change flex-shrink-0 col-12 my-2 me-3 rounded-0 ">Continue
                             Shopping</a></tr> 
                         <div class="card" style="border-radius: 0.3rem">
                     <div class="card-body d-flex justify-content-center p-5 " style="background: #ecebf3 !important">
@@ -69,10 +69,10 @@
                         </table>
                     </div>
                     <div class="container d-flex flex-row pb-5" style="background: #ecebf3 !important">
-                        <div class="container d-flex justify-content-between">
+                        <div class="container d-flex justify-content-end">
                             <tr><a href="{{url_for('clearcart')}}" class="btn btn-change  flex-shrink-0 col-2 my-2 rounded-0">Clear Cart</a></tr>
                             
-                                <tr><a href="{{url_for('get_order')}}" class="btn btn-change flex-shrink-0 col-2 my-2 rounded-0">Order Now</a></tr>
+                                
                         </div>
                     </div>
                 </div>
@@ -81,6 +81,7 @@
                         <h3 class="text-uppercase mt-3">Cart totals</h3>
                         <li class="list-unstyled"><span class="fw-bold">Tax(25%): </span> {{tax}} kr</li>
                         <li class="list-unstyled"><span class="fw-bold">Total Amount: </span><span class="h4">{{grandTotal}} kr</span></li>
+                        <tr><a href="{{url_for('get_order')}}" class="btn btn-outline-light flex-shrink-0 col-2 my-2 me-3 rounded-0 float-lg-end">Order Now</a></tr>
                     </div>
                 </div>  
                     </div>

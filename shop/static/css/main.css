@@ -146,4 +146,11 @@ ul {
   }
 /********* End search placeholder *********/
 
-  
+.stripe-button-el span{
+    background:rgb(0, 0, 0)!important;
+	color: #fff !important;
+	border-color: none!important;
+    border-radius: 0!important;
+    font-family: inherit!important;
+    text-transform: uppercase;
+}
