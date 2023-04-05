@@ -9,17 +9,39 @@
             <div class="container shadow-lg h-100">
                        
                 <div class="row d-flex h-100">
-                    <div class="col-12 col-md-12 col-lg-6 col-xl-12">
-                        <tr><a href="{{url_for('home')}}" class="btn btn-change flex-shrink-0 col-2 my-2 me-3 rounded-0">Continue
-                            Shopping</a></tr> 
+                    <div class="col-12 col-md-12 col-lg-6 col-xl-12 mt-5">
+                        <a class="navbar-brand" href="{{url_for('landing_page')}}">
+                            <img src="{{ url_for('static', filename='logo-no-bg.svg')}}" height="55" loading="lazy" /></a>
+                            <div class="container d-flex">
+                                <div class="col-5 text-start pb-2 "> 
+                                    <ul class="list-unstyled">
+                                      <li class="text-muted">To: <span>{{customer.name}}</span></li>
+                                      <li class="text-muted text-capitalize">{{customer.postal_code}} {{customer.city}}</li>
+                                      <li class="text-muted">{{customer.country}}</li>
+                                    </ul>
+                                </div>
+                                <h3 class="text-uppercase text-center mt-3" style="font-size: 40px;">Invoice</h3>
+                            <div class="col-5 text-end pb-2">
+                                <li class="text-muted list-unstyled"><span
+                                    class="fw-bold">Number: </span>{{orders.invoice}}</li>
+                                <li class="text-muted list-unstyled"><span
+                                    class="fw-bold">Creation Date: </span>{{ current_time }}</li>
+                                <li class="text-muted list-unstyled"><span
+                                    class="me-1 fw-bold">Status:</span><span class="badge text-black fw-bold rounded-0" style="background-color:#87e700">
+                                    {{orders.status}}</span></li>
+                              </div>
+
+                            </div>
+                        
+
                         <div class="card" style="border-radius: 0.3rem">
                     <div class="card-body d-flex justify-content-center p-5 " style="background: #ecebf3 !important">
+                        
                         <table class="table table-lg text-center align-middle">
                             <thead>
                                 <th>#</th>
-                                <th>Image</th>
                                 <th>Name</th>
-                                <th>Color</th>
+                                <th>Allergies</th>
                                 <th>Price</th>
                                 <th>Quantity</th>
                                 <th>Discount</th>
@@ -28,26 +50,18 @@
                                 <th></th>
                             </thead>
                             <tbody>
-                                {% for key, product in session['Shoppingcart'].items() %}
+                                {% for key, product in orders.orders.items() %}
                                 {% set discount = "%0.2f"|format((product.discount/100) * product.price|float)%}
                                 <tr>
                                     <td>{{loop.index}}</td>
-                                    <td><img src="{{url_for('static', filename='images/'+ product.image)}}" 
-                                        alt="{{product.name}}" width="45rem" height="45rem"></td>
+                                    
                                     <td>{{product.name |capitalize}}</td>
                                     <form action="{{url_for('updatecart', code=key)}}" method="post">
                                     <td>
-                                        {%set colors = product.colors.split(",") %}
-                                        <select class="form-control text-dark rounded-0" style="background-color:transparent" name="color" id="color">
-                                            <option value="{{product.colors}}" class="text-decoration-none">{{product.colors|capitalize}}</option>
-                                            {% for color in colors %}
-                                            {% set col = color.split(':') %}
-                                            <option value="{{col[0]}}">{{col[0] | capitalize }}</option>
-                                            {% endfor %}
-                                        </select>
+                                        {{product.color}}
                                     </td>
                                     <td>{{product.price}} kr</td>
-                                    <td><input class="form-control text-dark rounded-0" type="number" name="quantity" min="1" max="10" value="{{product.quantity}}"></td>
+                                    <td>{{product.quantity}}</td>
                                     {% if product.discount > 0%}
                                     <td>{{product.discount}}% &nbsp;saved &nbsp;{{discount}}</td>
                                     {% else %}
@@ -55,36 +69,35 @@
                                     {% endif %}
                                     {% set subtotal = product.quantity|int * product.price|float %}
                                     <td>{{"%0.2f"|format((subtotal|float)- discount|float)}}</td>
-                                    <!-- UPDATE BUTTON -->
-                                    <td><button href="#" type="submit" class="btn btn-change flex-shrink-0 rounded-0">Update</button></td>
+                                    
                                 </form>
-                                <!-- DELETE BUTTON   -->
-                                    <td class="text-center align-middle"><a href="{{url_for('deleteitem', id=key)}}" type="submit">
-                                        <i class="bi bi-x-circle text-black" ></i>
-                                    </a>
-                                    </td>
+                                
                                 </tr>
                                 {% endfor %}
                             </tbody>
                         </table>
                     </div>
-                    <div class="container d-flex flex-row pb-5" style="background: #ecebf3 !important">
+                    <div class="container d-flex flex-row" style="background: #ecebf3 !important">
                         <div class="container d-flex justify-content-between">
-                            <tr><a href="{{url_for('clearcart')}}" class="btn btn-change  flex-shrink-0 col-2 my-2 rounded-0">Clear Cart</a></tr>
-                            
-                                <tr><a href="{{url_for('get_order')}}" class="btn btn-change flex-shrink-0 col-2 my-2 rounded-0">Order Now</a></tr>
+                            <tr><a href="" class="btn btn-change  flex-shrink-0 col-2 my-2 rounded-0">Get PDF</a></tr>
+                            <tr><a href="{{url_for('home')}}" class="btn btn-change flex-shrink-0 col-2 my-2 me-3 rounded-0">Continue
+                                Shopping</a></tr> 
+                                <tr><a href="" class="btn btn-change flex-shrink-0 col-2 my-2 rounded-0">Check Out</a></tr>
+
                         </div>
+
+                         
+
                     </div>
                 </div>
                 <div class="card d-flex mt-2 shadow-lg" style="background: #6f17cd !important">
                     <div class="card-body text-end text-white pb-2">
                         <h3 class="text-uppercase mt-3">Cart totals</h3>
                         <li class="list-unstyled"><span class="fw-bold">Tax(25%): </span> {{tax}} kr</li>
-                        <li class="list-unstyled"><span class="fw-bold">Total Amount: </span><span class="h4">{{grandTotal}} kr</span></li>
+                        <li class="list-unstyled mb-3"><span class="fw-bold">Total Amount: </span><span class="h4">{{grandTotal}} kr</span></li>
                     </div>
                 </div>  
-                    </div>
-                    
+                </div>
                 </div>
             </div>
         </section>
