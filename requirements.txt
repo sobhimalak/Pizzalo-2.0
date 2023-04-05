@@ -13,3 +13,5 @@ WTForms==3.0.1
 email_validator
 stripe==5.4.0
 pdfkit==1.0.0
+waitress==2.1.2
+

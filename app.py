@@ -1,4 +1,4 @@
- from shop import app
+from shop import app
 import os
 from flask_fontawesome import FontAwesome
 
